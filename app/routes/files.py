@@ -158,6 +158,43 @@ def get_file(file_id):
     }), 200
 
 
+@files_bp.route("/api/v1/files/<int:file_id>/entries", methods=["GET"])
+def get_file_entries(file_id):
+    # Confirm that the uploaded file exists.
+    record = db.session.get(LogFile, file_id)
+
+    if record is None:
+        return jsonify({"error": "File not found."}), 404
+
+    # Retrieve parsed entries in their original line order.
+    entries = db.session.scalars(
+        select(LogEntry)
+        .where(LogEntry.file_id == file_id)
+        .order_by(LogEntry.line_number.asc())
+    ).all()
+
+    return jsonify({
+        "file_id": record.id,
+        "filename": record.filename,
+        "total_entries": len(entries),
+        "entries": [
+            {
+                "id": entry.id,
+                "timestamp": (
+                    entry.timestamp.isoformat()
+                    if entry.timestamp
+                    else None
+                ),
+                "level": entry.level,
+                "source": entry.source,
+                "message": entry.message,
+                "line_number": entry.line_number,
+            }
+            for entry in entries
+        ],
+    }), 200
+
+
 @files_bp.route("/api/v1/files/<int:file_id>", methods=["DELETE"])
 def delete_file(file_id):
     record = db.session.get(LogFile, file_id)

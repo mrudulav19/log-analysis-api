@@ -1,7 +1,25 @@
+# Environment variables and secrets
+.env
+.env.*
+
+# Python
 .venv/
 __pycache__/
 *.py[cod]
-.env
+
+# Testing
 .pytest_cache/
 .coverage
-instance/
+htmlcov/
+
+# Uploaded files and instance data
+instance/uploads/
+uploads/
+# Sample and uploaded log files
+*.log
+# Frontend
+frontend/node_modules/
+frontend/dist/
+
+# Build artifacts
+.DS_Store
