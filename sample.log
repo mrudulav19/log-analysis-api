@@ -1,0 +1,5 @@
+2026-10-28 09:15:21 INFO auth_service User login successful
+2026-10-28 09:16:02 WARNING payment_service Retry attempt 2
+2026-10-28 09:16:45 ERROR database Connection timeout
+This line is intentionally malformed
+2026-10-28 09:17:01 CRITICAL api_service Database unavailable
